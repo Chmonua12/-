@@ -780,23 +780,20 @@ while ((items = fread(buffer, sizeof(buffer[0]), count, file)) > 0) {
 Проверять возвращаемые значения функций записи:
 
 ```c
-FILE* file = fopen("largefile.bin", "wb");
-if (file == NULL) {
-    perror("Cannot open file");
-    return;
-}
-
-size_t written = fwrite(data, 1, dataSize, file);
-if (written < dataSize) {
-    if (ferror(file)) {
-        perror("Write error");
-        if (errno == ENOSPC) {
-            fprintf(stderr, "Disk is full!\n");
-        }
+if (fflush(file) == EOF) {
+    // 1. Вызываем fflush(file) - пытаемся записать буфер на диск
+    // 2. Сравниваем результат с EOF (End Of File, обычно -1)
+    // 3. Если fflush вернул EOF - произошла ошибка
+    // 4. Заходим внутрь блока if
+    
+    if (errno == ENOSPC) {
+        // 5. Проверяем глобальную переменную errno
+        // 6. ENOSPC = "Error NO SPace" (код ошибки "нет места")
+        // 7. Если errno содержит этот код - значит диск заполнен
+        // 8. Заходим внутрь вложенного блока if
+        
+        printf("Нет места на диске\n");
+        // 9. Выводим сообщение об ошибке
     }
-}
-
-if (fclose(file) == EOF) {
-    perror("Error closing file");
 }
 ```
