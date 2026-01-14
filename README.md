@@ -463,11 +463,8 @@ int result = sum(3, 10, 20, 30);  // 60
 
 #### 51. Приведите пример рекурсивной функции для вычисления факториала.
 ```c
-unsigned long long factorial(int n) {
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorial(n - 1);
+int factorial(int n) {
+    return (n <= 1) ? 1 : n * factorial(n - 1);
 }
 ```
 Базовый случай: `factorial(0) = factorial(1) = 1`
