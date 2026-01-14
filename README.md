@@ -516,8 +516,6 @@ result = operation(5, 3);      // 15
 ```c
 int (*funcPtr)(int, int) = add;  // указатель на функцию add
 int result = funcPtr(10, 20);    // вызов через указатель
-// Или эквивалентно:
-int result = (*funcPtr)(10, 20); // более явная форма
 ```
 
 ## 5. Динамическая память
