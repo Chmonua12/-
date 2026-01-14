@@ -643,21 +643,26 @@ gcc -E program.c -o program.i
 
 #### 70. Как создать условную компиляцию с помощью `#ifdef`?
 ```c
-#define DEBUG_MODE
+// 1. Определяем макрос (обычно в Makefile или командной строке)
+#define DEBUG  // или компиляция с флагом: gcc -DDEBUG program.c
 
-#ifdef DEBUG_MODE
-    printf("Debug information\n");
-    // отладочный код
+// 2. Проверяем в коде
+#ifdef DEBUG
+    // Этот код попадёт в программу ТОЛЬКО если DEBUG определён
+    printf("Отладочное сообщение: x = %d\n", x);
+    log_to_file("Функция вызвана");
 #endif
 
-#ifndef RELEASE_VERSION
-    #define FEATURE_X
+// 3. Альтернатива с #else
+#ifdef DEBUG
+    printf("Отладка включена\n");
+#else
+    printf("Отладка выключена\n");
 #endif
 
-#if defined(WIN32) && !defined(UNIX)
-    // код для Windows
-#elif defined(UNIX)
-    // код для Unix
+// 4. Проверка на отсутствие
+#ifndef RELEASE
+    printf("Это не релизная версия\n");
 #endif
 ```
 
